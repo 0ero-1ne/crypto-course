@@ -8,13 +8,19 @@
         x:Class="CourseProject.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="CourseProject">
+        Title="CourseProject"
+		ExtendClientAreaChromeHints="PreferSystemChrome"
+		ExtendClientAreaToDecorationsHint="True"
+		ExtendClientAreaTitleBarHeightHint="0"
+		CanResize="False"
+		SystemDecorations="None"
+		CornerRadius="10">
 
-    <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
              to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <vm:MainWindowViewModel/>
-    </Design.DataContext>
-	
+		<vm:MainWindowViewModel/>
+	</Design.DataContext>
+
 	<views:MainView />
 </Window>
