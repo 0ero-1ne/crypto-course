@@ -2,7 +2,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="450"
              x:Class="CourseProject.Views.MainView">
-  Welcome to Avalonia!
+	<StackPanel>
+		<TextBlock FontSize="24"
+			   HorizontalAlignment="Center"
+			   Margin="10">
+			ENCRYPTOR
+		</TextBlock>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="150" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+		</Grid>
+		<StackPanel Margin="20">
+			<Button Width="100"
+					Margin="0,0,0,10"
+					HorizontalContentAlignment="Center">
+				SM4
+			</Button>
+			<Button Width="100"
+					Margin="0,0,0,10"
+					HorizontalContentAlignment="Center">
+				ThreeFish
+			</Button>
+		</StackPanel>
+	</StackPanel>
 </UserControl>
