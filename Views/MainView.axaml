@@ -2,34 +2,146 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="700" d:DesignHeight="450"
              x:Class="CourseProject.Views.MainView">
-	<StackPanel>
-		<TextBlock FontSize="24"
-			   HorizontalAlignment="Center"
-			   Margin="10">
-			ENCRYPTOR
-		</TextBlock>
-		<Grid>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="150" />
-				<ColumnDefinition Width="*" />
-			</Grid.ColumnDefinitions>
-			<Grid.RowDefinitions>
-				<RowDefinition Height="*" />
-			</Grid.RowDefinitions>
-		</Grid>
-		<StackPanel Margin="20">
-			<Button Width="100"
-					Margin="0,0,0,10"
-					HorizontalContentAlignment="Center">
-				SM4
-			</Button>
-			<Button Width="100"
-					Margin="0,0,0,10"
-					HorizontalContentAlignment="Center">
-				ThreeFish
-			</Button>
-		</StackPanel>
-	</StackPanel>
+	<UserControl.Styles>
+		<StyleInclude Source="/Styles/Button.axaml" />
+		<StyleInclude Source="/Styles/TextBox.axaml" />
+	</UserControl.Styles>
+
+	<TabControl Margin="10">
+		<TabItem Header="ThreeFish">
+			<Grid Margin="0, 15">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="80"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="70"/>
+					<RowDefinition Height="100"/>
+					<RowDefinition Height="120"/>
+					<RowDefinition Height="100"/>
+				</Grid.RowDefinitions>
+				<TextBlock FontFamily="Montserrat"
+					FontSize="24"
+					Text="ThreeFish encryptor"
+					Grid.Column="0"
+					Grid.Row="0"/>
+				<StackPanel Grid.Row="1" Grid.Column="0">
+					<Label Margin="0,0,0,5"
+						   FontWeight="Medium">File path</Label>
+					<Button Content="Select file to encrypt"
+							Padding="50, 10"
+							Classes="Minimal"/>
+					<TextBlock Margin="5,5,0,0">No file</TextBlock>
+				</StackPanel>
+				<StackPanel Grid.Row="2" Grid.Column="0">
+					<Label Margin="0,10,0,5"
+						   FontWeight="Medium">Secret key</Label>
+					<TextBox Classes="Minimal"></TextBox>
+				</StackPanel>
+				<StackPanel Grid.Row="3" Grid.Column="0">
+					<Button Content="Encrypt" Padding="50, 10" Classes="Minimal"/>
+				</StackPanel>
+				<TextBlock FontFamily="Montserrat"
+					FontSize="24"
+					Text="ThreeFish decryptor"
+					Grid.Column="2"
+					Grid.Row="0"/>
+				<StackPanel Grid.Row="1" Grid.Column="2">
+					<Label Margin="0,0,0,5"
+						   FontWeight="Medium">File path</Label>
+					<Button Content="Select file to encrypt"
+							Padding="50, 10"
+							Classes="Minimal"/>
+					<TextBlock Margin="5,5,0,0">No file</TextBlock>
+				</StackPanel>
+				<StackPanel Grid.Row="2" Grid.Column="2">
+					<Label Margin="0,10,0,5"
+						   FontWeight="Medium">Secret key</Label>
+					<TextBox Classes="Minimal"></TextBox>
+				</StackPanel>
+				<StackPanel Grid.Row="3" Grid.Column="2">
+					<Button Content="Decrypt" Padding="50, 10" Classes="Minimal"/>
+				</StackPanel>
+			</Grid>
+		</TabItem>
+		<TabItem Header="SM4">
+			<Grid Margin="0, 15">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="80"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="70"/>
+					<RowDefinition Height="100"/>
+					<RowDefinition Height="120"/>
+					<RowDefinition Height="100"/>
+				</Grid.RowDefinitions>
+				<TextBlock FontFamily="Montserrat"
+					FontSize="24"
+					Text="SM4 encryptor"
+					Grid.Column="0"
+					Grid.Row="0"/>
+				<StackPanel Grid.Row="1" Grid.Column="0">
+					<Label Margin="0,0,0,5"
+						   FontWeight="Medium">File path</Label>
+					<Button Content="Select file to encrypt"
+							Padding="50, 10"
+							Classes="Minimal"/>
+					<TextBlock Margin="5,5,0,0">No file</TextBlock>
+				</StackPanel>
+				<StackPanel Grid.Row="2" Grid.Column="0">
+					<Label Margin="0,10,0,5"
+						   FontWeight="Medium">Secret key</Label>
+					<TextBox Classes="Minimal"></TextBox>
+				</StackPanel>
+				<StackPanel Grid.Row="3" Grid.Column="0">
+					<Button Content="Encrypt" Padding="50, 10" Classes="Minimal"/>
+				</StackPanel>
+				<TextBlock FontFamily="Montserrat"
+					FontSize="24"
+					Text="SM4 decryptor"
+					Grid.Column="2"
+					Grid.Row="0"/>
+				<StackPanel Grid.Row="1" Grid.Column="2">
+					<Label Margin="0,0,0,5"
+						   FontWeight="Medium">File path</Label>
+					<Button Content="Select file to encrypt"
+							Padding="50, 10"
+							Classes="Minimal"/>
+					<TextBlock Margin="5,5,0,0">No file</TextBlock>
+				</StackPanel>
+				<StackPanel Grid.Row="2" Grid.Column="2">
+					<Label Margin="0,10,0,5"
+						   FontWeight="Medium">Secret key</Label>
+					<TextBox Classes="Minimal"></TextBox>
+				</StackPanel>
+				<StackPanel Grid.Row="3" Grid.Column="2">
+					<Button Content="Decrypt" Padding="50, 10" Classes="Minimal"/>
+				</StackPanel>
+			</Grid>
+		</TabItem>
+		<TabItem Header="About">
+			<StackPanel>
+				<TextBlock FontSize="48"
+						   TextAlignment="Center"
+						   Margin="0,100,0,0">
+					Welcome
+				</TextBlock>
+				<TextBlock FontSize="24"
+						   TextAlignment="Center"
+						   Margin="0,20,0,0">
+					This program allows you to encrypt your files
+				</TextBlock>
+				<TextBlock FontSize="18"
+						   TextAlignment="Center"
+						   Margin="0,10,0,0">
+					We provide two ecnryption methods: SM4 and ThreeFish
+				</TextBlock>
+			</StackPanel>
+		</TabItem>
+	</TabControl>
 </UserControl>
