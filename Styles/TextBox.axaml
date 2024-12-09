@@ -1,0 +1,32 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Design.PreviewWith>
+		<Border Padding="100">
+			<TextBox Width="200" Classes="Minimal">Hello</TextBox>
+		</Border>
+	</Design.PreviewWith>
+
+	<Style Selector="TextBox.Minimal">
+		<Setter Property="FontWeight" Value="Medium" />
+		<Setter Property="Background" Value="White" />
+		<Setter Property="Foreground" Value="Black" />
+		<Setter Property="Height" Value="40" />
+		<Setter Property="VerticalContentAlignment" Value="Center" />
+		<Setter Property="InnerLeftContent">
+			<Template>
+				<Image Source="/Assets/key.ico"
+					   Width="25"
+					   Margin="5,0,0,0"/>
+			</Template>
+		</Setter>
+
+		<Style Selector="^ /template/ Border">
+			<Setter Property="BorderBrush" Value="Black" />
+		</Style>
+
+		<Style Selector="^:focus /template/ Border#Part_BorderElement">
+			<Setter Property="BorderThickness" Value="2" />
+			<Setter Property="BorderBrush" Value="Black" />
+		</Style>
+	</Style>
+</Styles>

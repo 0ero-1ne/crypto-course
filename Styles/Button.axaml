@@ -1,0 +1,37 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+	<Design.PreviewWith>
+		<Border Padding="100">
+			<Button Classes="Minimal"
+					Padding="50, 10">Hello, World</Button>
+		</Border>
+	</Design.PreviewWith>
+
+	<Style Selector="Button.Minimal">
+		<Setter Property="CornerRadius" Value="10" />
+		<Setter Property="Foreground" Value="Black" />
+		<Setter Property="Background" Value="White" />
+		<Setter Property="BorderBrush" Value="Black" />
+		<Setter Property="BorderThickness" Value="1" />
+		<Setter Property="FontWeight" Value="Medium" />
+
+		<Style Selector="^ /template/ ContentPresenter">
+			<Setter Property="Transitions">
+				<Transitions>
+					<BrushTransition Property="Background"
+									 Duration="0:0:0.1"
+									 Easing="CircularEaseInOut"/>
+				</Transitions>
+			</Setter>
+		</Style>
+
+		<Style Selector="^:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+			<Setter Property="Background" Value="Black" />
+			<Setter Property="Foreground" Value="White" />
+		</Style>
+
+		<Style Selector="^:pressed /template/ ContentPresenter#PART_ContentPresenter">
+			<Setter Property="Background" Value="Gray" />
+		</Style>
+	</Style>
+</Styles>
