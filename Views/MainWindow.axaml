@@ -9,11 +9,22 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="ThreeFish/SM4 Encryptor"
-		RequestedThemeVariant="Light"
 		Width="800" Height="450">
 
-	<Design.DataContext>
-	</Design.DataContext>
+	<Window.Styles>
+		<StyleInclude Source="/Styles/Button.axaml" />
+		<StyleInclude Source="/Styles/TextBox.axaml" />
+	</Window.Styles>
 
-	<views:MainView />
+	<TabControl Margin="10">
+		<TabItem Header="ThreeFish">
+			<views:ThreeFishView DataContext="{Binding ThreeFishViewModel}" />
+		</TabItem>
+		<TabItem Header="SM4">
+			<views:SM4View DataContext="{Binding SM4ViewModel}" />
+		</TabItem>
+		<TabItem Header="About">
+			<views:AboutView DataContext="{Binding AboutViewModel}" />
+		</TabItem>
+	</TabControl>
 </Window>
