@@ -2,7 +2,14 @@
 
 public partial class MainWindowViewModel : ViewModelBase
 {
-#pragma warning disable CA1822 // Mark members as static
-    public string Greeting => "Welcome to Avalonia!";
-#pragma warning restore CA1822 // Mark members as static
+    public MainWindowViewModel()
+    {
+        ThreeFishViewModel = new();
+        SM4ViewModel = new();
+        AboutViewModel = new();
+    }
+
+    public ThreeFishViewModel ThreeFishViewModel { get; }
+    public SM4ViewModel SM4ViewModel { get; }
+    public AboutViewModel AboutViewModel { get; }
 }
