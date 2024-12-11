@@ -1,6 +1,7 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using CourseProject.Crypto;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Base;
 using MsBox.Avalonia.Enums;
@@ -8,10 +9,11 @@ using ReactiveUI;
 using System;
 using System.Reactive;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace CourseProject.ViewModels
 {
-    public class ThreeFishViewModel : ReactiveObject
+    public partial class ThreeFishViewModel : ReactiveObject
     {
         private string? _filePath = null;
         public string FilePath
@@ -43,6 +45,7 @@ namespace CourseProject.ViewModels
 
         public ReactiveCommand<Unit, Unit> EncryptCommand { get; }
         public ReactiveCommand<Unit, Unit> DecryptCommand { get; }
+        public ReactiveCommand<Unit, Unit> GenerateKeyCommand { get; }
 
         public ThreeFishViewModel()
         {
@@ -50,21 +53,39 @@ namespace CourseProject.ViewModels
             {
                 if (_filePath is null || _encryptionKey is null)
                 {
-                    var _ = await GetMsBox("Encryption error", "Please choose file / enter encryption key and try again", true).ShowAsync();
+                    var _ = await GetMsBox("Encryption error", Messages.Messages.ENCRYPT_INPUT_ERROR, true).ShowAsync();
                     return;
                 }
 
-                var res = await GetMsBox("Encryption success", "Success", false).ShowAsync();
+                if (!ThreeFishKeyRegex().Match(EncryptionKey).Success || EncryptionKey.Length != 32)
+                {
+                    var _ = await GetMsBox("Encryption error", Messages.Messages.KEY_ERROR, true).ShowAsync();
+                    return;
+                }
+
+                var res = await GetMsBox("Encryption success", Messages.Messages.ENCRYPTION_SUCCESS, false).ShowAsync();
             });
+
             DecryptCommand = ReactiveCommand.CreateFromTask(async () =>
             {
                 if (_encryptedFilePath is null || _decryptionKey is null)
                 {
-                    var _ = await GetMsBox("Decryption error", "Please choose encrypted file / enter decryption key and try again", true).ShowAsync();
+                    var _ = await GetMsBox("Decryption error", Messages.Messages.DECRYPT_INPUT_ERROR, true).ShowAsync();
                     return;
                 }
 
-                var res = await GetMsBox("Decryption success", "Success", false).ShowAsync();
+                if (!ThreeFishKeyRegex().Match(DecryptionKey).Success || DecryptionKey.Length != 32)
+                {
+                    var _ = await GetMsBox("Decryption error", Messages.Messages.KEY_ERROR, true).ShowAsync();
+                    return;
+                }
+
+                var res = await GetMsBox("Decryption success", Messages.Messages.DECRYPTION_SUCCESS, false).ShowAsync();
+            });
+
+            GenerateKeyCommand = ReactiveCommand.Create(() =>
+            {
+                EncryptionKey = KeyGenerator.GenerateKey(32);
             });
         }
 
@@ -90,5 +111,8 @@ namespace CourseProject.ViewModels
                 }
             );
         }
+
+        [GeneratedRegex(@"[0-9A-Za-z@#!`'""\\|/?$[\]{};:%^&*()=_+.,~<>-]")]
+        private static partial Regex ThreeFishKeyRegex();
     }
 }

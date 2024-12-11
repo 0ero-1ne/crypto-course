@@ -9,7 +9,7 @@
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
         Title="ThreeFish/SM4 Encryptor"
-		Width="800" Height="450">
+		Width="800" Height="480">
 
 	<Window.Styles>
 		<StyleInclude Source="/Styles/Button.axaml" />

@@ -27,14 +27,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Views\SM4View.axaml.cs">
-	    <DependentUpon>SM4View.axaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\ThreeFishView.axaml.cs">
-	    <DependentUpon>ThreeFishView.axaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\AboutView.axaml.cs">
-	    <DependentUpon>AboutView.axaml</DependentUpon>
-	  </Compile>
+		<Compile Update="Views\SM4View.axaml.cs">
+			<DependentUpon>SM4View.axaml</DependentUpon>
+		</Compile>
+		<Compile Update="Views\ThreeFishView.axaml.cs">
+			<DependentUpon>ThreeFishView.axaml</DependentUpon>
+		</Compile>
+		<Compile Update="Views\AboutView.axaml.cs">
+			<DependentUpon>AboutView.axaml</DependentUpon>
+		</Compile>
 	</ItemGroup>
 </Project>
