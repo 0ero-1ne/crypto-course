@@ -59,7 +59,7 @@ namespace CourseProject.ViewModels
 
                 if (!ThreeFishKeyRegex().Match(EncryptionKey).Success || EncryptionKey.Length != 32)
                 {
-                    var _ = await GetMsBox("Encryption error", Messages.Messages.KEY_ERROR, true).ShowAsync();
+                    var _ = await GetMsBox("Encryption error", Messages.Messages.TF_KEY_ERROR, true).ShowAsync();
                     return;
                 }
 
@@ -76,7 +76,7 @@ namespace CourseProject.ViewModels
 
                 if (!ThreeFishKeyRegex().Match(DecryptionKey).Success || DecryptionKey.Length != 32)
                 {
-                    var _ = await GetMsBox("Decryption error", Messages.Messages.KEY_ERROR, true).ShowAsync();
+                    var _ = await GetMsBox("Decryption error", Messages.Messages.TF_KEY_ERROR, true).ShowAsync();
                     return;
                 }
 

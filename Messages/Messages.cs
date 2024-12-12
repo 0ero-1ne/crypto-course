@@ -2,10 +2,15 @@
 {
     public static class Messages
     {
-        public const string KEY_ERROR = """
-        Key must have size 32 characters
-        Click button below the text box to generate strong key
+        public const string TF_KEY_ERROR = """
+        Three fish key must have size 32 characters
         Allowed characters: 0-9A-Za-z@#!`'"\|/?$;:%^&*()-=_+.,~<>[]{}
+        Click button below the text box to generate strong key
+        """;
+        public const string SM4_KEY_ERROR = """
+        SM4 key must have size 16 characters
+        Allowed characters: 0-9A-Za-z@#!`'"\|/?$;:%^&*()-=_+.,~<>[]{}
+        Click button below the text box to generate strong key
         """;
         public const string ENCRYPT_INPUT_ERROR = "Choose file to encrypt and enter encryption key";
         public const string DECRYPT_INPUT_ERROR = "Choose file to decrypt and enter decryption key";

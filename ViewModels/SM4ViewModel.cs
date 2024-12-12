@@ -1,11 +1,10 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
+using CourseProject.Crypto;
 using MsBox.Avalonia;
 using MsBox.Avalonia.Base;
 using MsBox.Avalonia.Enums;
-using Org.BouncyCastle.Crypto;
-using Org.BouncyCastle.Security;
 using ReactiveUI;
 using System;
 using System.Reactive;
@@ -58,9 +57,9 @@ namespace CourseProject.ViewModels
                     return;
                 }
 
-                if (!SM4KeyRegex().Match(EncryptionKey.ToUpper()).Success)
+                if (!SM4KeyRegex().Match(EncryptionKey.ToUpper()).Success || EncryptionKey.Length != 16)
                 {
-                    var _ = await GetMsBox("Encryption error", Messages.Messages.KEY_ERROR, true).ShowAsync();
+                    var _ = await GetMsBox("Encryption error", Messages.Messages.SM4_KEY_ERROR, true).ShowAsync();
                     return;
                 }
 
@@ -75,9 +74,9 @@ namespace CourseProject.ViewModels
                     return;
                 }
 
-                if (!SM4KeyRegex().Match(DecryptionKey.ToUpper()).Success)
+                if (!SM4KeyRegex().Match(DecryptionKey.ToUpper()).Success || DecryptionKey.Length != 16)
                 {
-                    var _ = await GetMsBox("Decryption error", Messages.Messages.KEY_ERROR, true).ShowAsync();
+                    var _ = await GetMsBox("Decryption error", Messages.Messages.SM4_KEY_ERROR, true).ShowAsync();
                     return;
                 }
 
@@ -86,9 +85,7 @@ namespace CourseProject.ViewModels
 
             GenerateKeyCommand = ReactiveCommand.Create(() =>
             {
-                CipherKeyGenerator keyGen = new();
-                keyGen.Init(new KeyGenerationParameters(new SecureRandom(), 128));
-                EncryptionKey = Convert.ToHexString(keyGen.GenerateKey());
+                EncryptionKey = KeyGenerator.GenerateKey(16);
             });
         }
 
@@ -115,7 +112,7 @@ namespace CourseProject.ViewModels
             );
         }
 
-        [GeneratedRegex(@"[0-9A-F]{32}")]
+        [GeneratedRegex(@"[0-9A-Za-z@#!`'""\\|/?$[\]{};:%^&*()=_+.,~<>-]")]
         private static partial Regex SM4KeyRegex();
     }
 }
