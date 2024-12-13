@@ -37,7 +37,6 @@
 
 	<Style Selector="Button.Generate">
 		<Style Selector="^ /template/ ContentPresenter">
-			<Setter Property="CornerRadius" Value="5" />
 			<Setter Property="Foreground" Value="Black" />
 			<Setter Property="Background" Value="White" />
 			<Setter Property="BorderBrush" Value="Black" />

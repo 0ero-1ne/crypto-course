@@ -15,7 +15,7 @@
         public const string ENCRYPT_INPUT_ERROR = "Choose file to encrypt and enter encryption key";
         public const string DECRYPT_INPUT_ERROR = "Choose file to decrypt and enter decryption key";
         public const string FILE_IS_NOT_FOUND = "File is not found. Choose the file again";
-        public const string FILE_DECRYPTION_FORMAT_ERROR_TF = "Decryption file must have \"tf\" extension";
+        public const string FILE_DECRYPTION_FORMAT_ERROR_TF = "Decryption file must have \"tfish\" extension";
         public const string FILE_DECRYPTION_FORMAT_ERROR_SM4 = "Decryption file must have \"sm4\" extension";
         public const string ENCRYPTION_SUCCESS = "File was successfully encrypted";
         public const string ENCRYPTION_FAIL = "File was not encrypted";

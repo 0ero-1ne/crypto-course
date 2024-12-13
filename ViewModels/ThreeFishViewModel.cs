@@ -1,4 +1,6 @@
-﻿using Avalonia.Controls;
+﻿using Avalonia;
+using Avalonia.Controls;
+using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using CourseProject.Crypto;
@@ -7,6 +9,7 @@ using MsBox.Avalonia.Base;
 using MsBox.Avalonia.Enums;
 using ReactiveUI;
 using System;
+using System.IO;
 using System.Reactive;
 using System.Reflection;
 using System.Text.RegularExpressions;
@@ -46,6 +49,10 @@ namespace CourseProject.ViewModels
         public ReactiveCommand<Unit, Unit> EncryptCommand { get; }
         public ReactiveCommand<Unit, Unit> DecryptCommand { get; }
         public ReactiveCommand<Unit, Unit> GenerateKeyCommand { get; }
+        public ReactiveCommand<Unit, Unit> ClearFilePath { get; }
+        public ReactiveCommand<Unit, Unit> ClearEncryptedFilePath { get; }
+        public ReactiveCommand<Unit, Unit> OpenFileDialogCommand { get; }
+        public ReactiveCommand<Unit, Unit> OpenEncryptedFileDialogCommand { get; }
 
         public ThreeFishViewModel()
         {
@@ -86,6 +93,56 @@ namespace CourseProject.ViewModels
             GenerateKeyCommand = ReactiveCommand.Create(() =>
             {
                 EncryptionKey = KeyGenerator.GenerateKey(32);
+            });
+
+            ClearFilePath = ReactiveCommand.Create(() =>
+            {
+                FilePath = null;
+            });
+
+            ClearEncryptedFilePath = ReactiveCommand.Create(() =>
+            {
+                EncryptedFilePath = null;
+            });
+
+            OpenFileDialogCommand = ReactiveCommand.CreateFromTask(async () =>
+            {
+                var desktop = (IClassicDesktopStyleApplicationLifetime)Application.Current?.ApplicationLifetime!;
+                var mainWindow = desktop.MainWindow;
+                var topLevel = TopLevel.GetTopLevel(mainWindow);
+                var files = await topLevel!.StorageProvider.OpenFilePickerAsync(new()
+                {
+                    Title = "Select file to encrypt",
+                    AllowMultiple = false
+                });
+
+                if (files.Count >= 1)
+                {
+                    FilePath = files[0].Path.LocalPath;
+                }
+            });
+
+            OpenEncryptedFileDialogCommand = ReactiveCommand.CreateFromTask(async () =>
+            {
+                var desktop = (IClassicDesktopStyleApplicationLifetime)Application.Current?.ApplicationLifetime!;
+                var mainWindow = desktop.MainWindow;
+                var topLevel = TopLevel.GetTopLevel(mainWindow);
+                var files = await topLevel!.StorageProvider.OpenFilePickerAsync(new()
+                {
+                    Title = "Select file to decrypt",
+                    AllowMultiple = false
+                });
+
+                if (files.Count >= 1)
+                {
+                    if (Path.GetExtension(files[0].Path.LocalPath) == ".tfish")
+                    {
+                        EncryptedFilePath = files[0].Path.LocalPath;
+                        return;
+                    }
+
+                    var _ = await GetMsBox("File extension error", Messages.Messages.FILE_DECRYPTION_FORMAT_ERROR_TF, true).ShowAsync();
+                }
             });
         }
 

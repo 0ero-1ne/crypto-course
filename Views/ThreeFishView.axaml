@@ -25,12 +25,23 @@
 		<StackPanel Grid.Row="1" Grid.Column="0">
 			<Label Margin="0,0,0,5"
 				   FontWeight="Medium">File path</Label>
-			<Button Content="Select file to encrypt"
-					Padding="50, 10"
-					Classes="Minimal"/>
+			<StackPanel Orientation="Horizontal" >
+				<Button Content="Select file to encrypt"
+						Padding="50, 10"
+						Classes="Minimal"
+						Command="{Binding OpenFileDialogCommand}"
+						x:DataType="vm:ThreeFishViewModel" />
+				<Button Margin="10, 0"
+						Classes="Generate"
+						CornerRadius="10"
+						Command="{Binding ClearFilePath}"
+						x:DataType="vm:ThreeFishViewModel">
+					<Image Source="/Assets/clear.ico" Width="24"/>
+				</Button>
+			</StackPanel>
 			<TextBlock Margin="5,5,0,0"
-					   Text="{Binding FilePath}"
-					   x:DataType="vm:ThreeFishViewModel" />
+				   Text="{Binding FilePath}"
+				   x:DataType="vm:ThreeFishViewModel" />
 		</StackPanel>
 		<StackPanel Grid.Row="2" Grid.Column="0">
 			<Label Margin="0,10,0,5"
@@ -60,10 +71,21 @@
 			Grid.Row="0"/>
 		<StackPanel Grid.Row="1" Grid.Column="2">
 			<Label Margin="0,0,0,5"
-				   FontWeight="Medium">File path</Label>
-			<Button Content="Select file to encrypt"
-					Padding="50, 10"
-					Classes="Minimal"/>
+				   FontWeight="Medium">Encrypted file path</Label>
+			<StackPanel Orientation="Horizontal">
+				<Button Content="Select file to encrypt"
+						Padding="50, 10"
+						Classes="Minimal"
+						Command="{Binding OpenEncryptedFileDialogCommand}"
+						x:DataType="vm:ThreeFishViewModel"/>
+				<Button Margin="10, 0"
+						Classes="Generate"
+						CornerRadius="10"
+						Command="{Binding ClearEncryptedFilePath}"
+						x:DataType="vm:ThreeFishViewModel">
+					<Image Source="/Assets/clear.ico" Width="24"/>
+				</Button>
+			</StackPanel>
 			<TextBlock Margin="5,5,0,0"
 					   Text="{Binding EncryptedFilePath}"
 					   x:DataType="vm:ThreeFishViewModel"/>
