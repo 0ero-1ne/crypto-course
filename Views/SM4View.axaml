@@ -49,13 +49,24 @@
 			<TextBox Classes="Minimal"
 					 Text="{Binding EncryptionKey}"
 					 x:DataType="vm:SM4ViewModel"/>
-			<Button Margin="0,5,0,0"
-					Classes="Generate"
-					HorizontalAlignment="Right"
-					Command="{Binding GenerateKeyCommand}"
-					x:DataType="vm:SM4ViewModel">
-				<Image Source="/Assets/generate.ico" Width="24"/>
-			</Button>
+			<StackPanel Orientation="Horizontal"
+						HorizontalAlignment="Right">
+				<Button Margin="0,5,0,0"
+						HorizontalAlignment="Right"
+						Classes="Generate"
+						Command="{Binding GenerateKeyCommand}"
+						x:DataType="vm:SM4ViewModel">
+					<Image Source="/Assets/generate.ico" Width="24"/>
+				</Button>
+				<Button Margin="10,0,0,0"
+						Classes="Generate"
+						VerticalAlignment="Bottom"
+						CornerRadius="5"
+						Command="{Binding ClearEncryptionKey}"
+						x:DataType="vm:SM4ViewModel">
+					<Image Source="/Assets/clear.ico" Width="24"/>
+				</Button>
+			</StackPanel>
 		</StackPanel>
 		<StackPanel Grid.Row="3" Grid.Column="0">
 			<Button Content="Encrypt"
@@ -96,6 +107,13 @@
 			<TextBox Classes="Minimal"
 					 Text="{Binding DecryptionKey}"
 					 x:DataType="vm:SM4ViewModel"/>
+			<Button Margin="0,5,0,0"
+					HorizontalAlignment="Right"
+					Classes="Generate"
+					Command="{Binding ClearDecryptionKey}"
+					x:DataType="vm:SM4ViewModel">
+				<Image Source="/Assets/clear.ico" Width="24"/>
+			</Button>
 		</StackPanel>
 		<StackPanel Grid.Row="3" Grid.Column="2">
 			<Button Content="Decrypt"

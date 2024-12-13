@@ -51,6 +51,8 @@ namespace CourseProject.ViewModels
         public ReactiveCommand<Unit, Unit> GenerateKeyCommand { get; }
         public ReactiveCommand<Unit, Unit> ClearFilePath { get; }
         public ReactiveCommand<Unit, Unit> ClearEncryptedFilePath { get; }
+        public ReactiveCommand<Unit, Unit> ClearEncryptionKey { get; }
+        public ReactiveCommand<Unit, Unit> ClearDecryptionKey { get; }
         public ReactiveCommand<Unit, Unit> OpenFileDialogCommand { get; }
         public ReactiveCommand<Unit, Unit> OpenEncryptedFileDialogCommand { get; }
 
@@ -103,6 +105,16 @@ namespace CourseProject.ViewModels
             ClearEncryptedFilePath = ReactiveCommand.Create(() =>
             {
                 EncryptedFilePath = null;
+            });
+
+            ClearEncryptionKey = ReactiveCommand.Create(() =>
+            {
+                EncryptionKey = null;
+            });
+
+            ClearDecryptionKey = ReactiveCommand.Create(() =>
+            {
+                DecryptionKey = null;
             });
 
             OpenFileDialogCommand = ReactiveCommand.CreateFromTask(async () =>
