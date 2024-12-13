@@ -9,6 +9,7 @@ using MsBox.Avalonia.Base;
 using MsBox.Avalonia.Enums;
 using ReactiveUI;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reactive;
 using System.Reflection;
@@ -62,34 +63,76 @@ namespace CourseProject.ViewModels
             {
                 if (_filePath is null || _encryptionKey is null)
                 {
-                    var _ = await GetMsBox("Encryption error", Messages.Messages.ENCRYPT_INPUT_ERROR, true).ShowAsync();
+                    await GetMsBox(
+                        Messages.Messages.ENCRYPTION_FAIL,
+                        Messages.Messages.ENCRYPT_INPUT_ERROR,
+                        true
+                    ).ShowAsync();
+
                     return;
                 }
 
                 if (!SM4KeyRegex().Match(EncryptionKey.ToUpper()).Success || EncryptionKey.Length != 16)
                 {
-                    var _ = await GetMsBox("Encryption error", Messages.Messages.SM4_KEY_ERROR, true).ShowAsync();
+                    await GetMsBox(
+                        Messages.Messages.ENCRYPTION_FAIL,
+                        Messages.Messages.SM4_KEY_ERROR,
+                        true
+                    ).ShowAsync();
+
                     return;
                 }
 
-                var res = await GetMsBox("Encryption success", "Success", false).ShowAsync();
+                var timer = Stopwatch.StartNew();
+                var encryptedData = SM4.Encrypt(File.ReadAllBytes(FilePath), EncryptionKey);
+                FileWriter.FileWriter.WriteData(FileWriter.FileWriter.GetSM4EncryptedFilepath(FilePath)!, encryptedData);
+                timer.Stop();
+
+                FilePath = EncryptionKey = null!;
+
+                await GetMsBox(
+                    Messages.Messages.ENCRYPTION_SUCCESS,
+                    $"File was encrypted in {timer.ElapsedMilliseconds} ms and saved with original file",
+                    false
+                ).ShowAsync();
             });
 
             DecryptCommand = ReactiveCommand.CreateFromTask(async () =>
             {
                 if (_encryptedFilePath is null || _decryptionKey is null)
                 {
-                    var _ = await GetMsBox("Decryption error", Messages.Messages.DECRYPT_INPUT_ERROR, true).ShowAsync();
+                    await GetMsBox(
+                        Messages.Messages.DECRYPTION_FAIL,
+                        Messages.Messages.DECRYPT_INPUT_ERROR,
+                        true
+                    ).ShowAsync();
+
                     return;
                 }
 
                 if (!SM4KeyRegex().Match(DecryptionKey.ToUpper()).Success || DecryptionKey.Length != 16)
                 {
-                    var _ = await GetMsBox("Decryption error", Messages.Messages.SM4_KEY_ERROR, true).ShowAsync();
+                    await GetMsBox(
+                        Messages.Messages.DECRYPTION_FAIL,
+                        Messages.Messages.SM4_KEY_ERROR,
+                        true
+                    ).ShowAsync();
+
                     return;
                 }
 
-                var res = await GetMsBox("Decryption success", "Success", false).ShowAsync();
+                var timer = Stopwatch.StartNew();
+                var decryptedData = SM4.Decrypt(File.ReadAllBytes(EncryptedFilePath), DecryptionKey);
+                FileWriter.FileWriter.WriteData(FileWriter.FileWriter.GetSM4DecryptedFilepath(EncryptedFilePath)!, decryptedData);
+                timer.Stop();
+
+                EncryptedFilePath = DecryptionKey = null!;
+
+                await GetMsBox(
+                    Messages.Messages.DECRYPTION_SUCCESS,
+                    $"File was decrypted in {timer.ElapsedMilliseconds} ms and saved with original file",
+                    false
+                ).ShowAsync();
             });
 
             GenerateKeyCommand = ReactiveCommand.Create(() =>
@@ -99,22 +142,22 @@ namespace CourseProject.ViewModels
 
             ClearFilePath = ReactiveCommand.Create(() =>
             {
-                FilePath = null;
+                FilePath = null!;
             });
 
             ClearEncryptedFilePath = ReactiveCommand.Create(() =>
             {
-                EncryptedFilePath = null;
+                EncryptedFilePath = null!;
             });
 
             ClearEncryptionKey = ReactiveCommand.Create(() =>
             {
-                EncryptionKey = null;
+                EncryptionKey = null!;
             });
 
             ClearDecryptionKey = ReactiveCommand.Create(() =>
             {
-                DecryptionKey = null;
+                DecryptionKey = null!;
             });
 
             OpenFileDialogCommand = ReactiveCommand.CreateFromTask(async () =>

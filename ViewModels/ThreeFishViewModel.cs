@@ -9,6 +9,7 @@ using MsBox.Avalonia.Base;
 using MsBox.Avalonia.Enums;
 using ReactiveUI;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reactive;
 using System.Reflection;
@@ -62,59 +63,76 @@ namespace CourseProject.ViewModels
             {
                 if (_filePath is null || _encryptionKey is null)
                 {
-                    var _ = await GetMsBox("Encryption error", Messages.Messages.ENCRYPT_INPUT_ERROR, true).ShowAsync();
+                    await GetMsBox(
+                        Messages.Messages.ENCRYPTION_FAIL,
+                        Messages.Messages.ENCRYPT_INPUT_ERROR,
+                        true
+                    ).ShowAsync();
+
                     return;
                 }
 
                 if (!ThreeFishKeyRegex().Match(EncryptionKey).Success || EncryptionKey.Length != 32)
                 {
-                    var _ = await GetMsBox("Encryption error", Messages.Messages.TF_KEY_ERROR, true).ShowAsync();
+                    await GetMsBox(
+                        Messages.Messages.ENCRYPTION_FAIL,
+                        Messages.Messages.TF_KEY_ERROR,
+                        true
+                    ).ShowAsync();
+
                     return;
                 }
 
-                var res = await GetMsBox("Encryption success", Messages.Messages.ENCRYPTION_SUCCESS, false).ShowAsync();
+                var timer = Stopwatch.StartNew();
+                var encryptedData = ThreeFish.Encrypt(File.ReadAllBytes(FilePath), EncryptionKey);
+                FileWriter.FileWriter.WriteData(FileWriter.FileWriter.GetThreeFishEncryptedFilepath(FilePath)!, encryptedData);
+                timer.Stop();
+
+                FilePath = EncryptionKey = null!;
+
+                await GetMsBox(
+                    Messages.Messages.ENCRYPTION_SUCCESS,
+                    $"File was encrypted in {timer.ElapsedMilliseconds} ms and saved with original file",
+                    false
+                ).ShowAsync();
             });
 
             DecryptCommand = ReactiveCommand.CreateFromTask(async () =>
             {
                 if (_encryptedFilePath is null || _decryptionKey is null)
                 {
-                    var _ = await GetMsBox("Decryption error", Messages.Messages.DECRYPT_INPUT_ERROR, true).ShowAsync();
+                    await GetMsBox(
+                        Messages.Messages.DECRYPTION_FAIL,
+                        Messages.Messages.DECRYPT_INPUT_ERROR,
+                        true
+                    ).ShowAsync();
+
                     return;
                 }
 
                 if (!ThreeFishKeyRegex().Match(DecryptionKey).Success || DecryptionKey.Length != 32)
                 {
-                    var _ = await GetMsBox("Decryption error", Messages.Messages.TF_KEY_ERROR, true).ShowAsync();
+                    await GetMsBox(
+                        Messages.Messages.DECRYPTION_FAIL,
+                        Messages.Messages.TF_KEY_ERROR,
+                        true
+                    ).ShowAsync();
+
                     return;
                 }
 
-                var res = await GetMsBox("Decryption success", Messages.Messages.DECRYPTION_SUCCESS, false).ShowAsync();
-            });
+                var timer = Stopwatch.StartNew();
+                var decryptedData = ThreeFish.Decrypt(File.ReadAllBytes(EncryptedFilePath), DecryptionKey);
+                FileWriter.FileWriter.WriteData(FileWriter.FileWriter.GetThreeFishDecryptedFilepath(EncryptedFilePath)!, decryptedData);
+                timer.Stop();
 
-            GenerateKeyCommand = ReactiveCommand.Create(() =>
-            {
-                EncryptionKey = KeyGenerator.GenerateKey(32);
-            });
+                EncryptedFilePath = DecryptionKey = null!;
 
-            ClearFilePath = ReactiveCommand.Create(() =>
-            {
-                FilePath = null;
-            });
-
-            ClearEncryptedFilePath = ReactiveCommand.Create(() =>
-            {
-                EncryptedFilePath = null;
-            });
-
-            ClearEncryptionKey = ReactiveCommand.Create(() =>
-            {
-                EncryptionKey = null;
-            });
-
-            ClearDecryptionKey = ReactiveCommand.Create(() =>
-            {
-                DecryptionKey = null;
+                await GetMsBox(
+                    Messages.Messages.DECRYPTION_SUCCESS,
+                    $"File was decrypted in {timer.ElapsedMilliseconds} ms and saved with original file",
+                    false
+                ).ShowAsync();
             });
 
             OpenFileDialogCommand = ReactiveCommand.CreateFromTask(async () =>
@@ -155,6 +173,31 @@ namespace CourseProject.ViewModels
 
                     var _ = await GetMsBox("File extension error", Messages.Messages.FILE_DECRYPTION_FORMAT_ERROR_TF, true).ShowAsync();
                 }
+            });
+
+            GenerateKeyCommand = ReactiveCommand.Create(() =>
+            {
+                EncryptionKey = KeyGenerator.GenerateKey(32);
+            });
+
+            ClearFilePath = ReactiveCommand.Create(() =>
+            {
+                FilePath = null!;
+            });
+
+            ClearEncryptedFilePath = ReactiveCommand.Create(() =>
+            {
+                EncryptedFilePath = null!;
+            });
+
+            ClearEncryptionKey = ReactiveCommand.Create(() =>
+            {
+                EncryptionKey = null!;
+            });
+
+            ClearDecryptionKey = ReactiveCommand.Create(() =>
+            {
+                DecryptionKey = null!;
             });
         }
 
