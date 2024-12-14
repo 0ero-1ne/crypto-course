@@ -85,7 +85,7 @@ namespace CourseProject.ViewModels
 
                 var timer = Stopwatch.StartNew();
                 var encryptedData = ThreeFish.Encrypt(File.ReadAllBytes(FilePath), EncryptionKey);
-                FileWriter.FileWriter.WriteData(FileWriter.FileWriter.GetThreeFishEncryptedFilepath(FilePath)!, encryptedData);
+                FileWriter.FileWriter.WriteData(FileWriter.FileWriter.GetThreeFishEncryptedFilepath(FilePath)!, encryptedData!);
                 timer.Stop();
 
                 FilePath = EncryptionKey = null!;
@@ -123,6 +123,17 @@ namespace CourseProject.ViewModels
 
                 var timer = Stopwatch.StartNew();
                 var decryptedData = ThreeFish.Decrypt(File.ReadAllBytes(EncryptedFilePath), DecryptionKey);
+
+                if (decryptedData == null)
+                {
+                    await GetMsBox(
+                        Messages.Messages.DECRYPTION_FAIL,
+                        "Wrong decryption key. Check your input and try again",
+                        true
+                    ).ShowAsync();
+                    return;
+                }
+
                 FileWriter.FileWriter.WriteData(FileWriter.FileWriter.GetThreeFishDecryptedFilepath(EncryptedFilePath)!, decryptedData);
                 timer.Stop();
 

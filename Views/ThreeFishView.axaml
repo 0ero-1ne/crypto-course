@@ -84,7 +84,7 @@
 			<Label Margin="0,0,0,5"
 				   FontWeight="Medium">Encrypted file path</Label>
 			<StackPanel Orientation="Horizontal">
-				<Button Content="Select file to encrypt"
+				<Button Content="Select file to decrypt"
 						Padding="50, 10"
 						Classes="Minimal"
 						Command="{Binding OpenEncryptedFileDialogCommand}"
