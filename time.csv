@@ -1,0 +1,17 @@
+Operation;Algorithm;Bytes;Time;Size
+Encryption;Threefish;100000;8;100032
+Encryption;SM4;100000;6;100016
+Encryption;Threefish;1000000;19;1000032
+Encryption;SM4;1000000;44;1000016
+Encryption;Threefish;10000000;201;10000032
+Encryption;SM4;10000000;149;10000016
+Encryption;Threefish;100000000;329;100000032
+Encryption;SM4;100000000;1461;100000016
+Decryption;Threefish;100000;3;100000
+Decryption;SM4;100000;4;100000
+Decryption;Threefish;1000000;27;1000000
+Decryption;SM4;1000000;44;1000000
+Decryption;Threefish;10000000;36;10000000
+Decryption;SM4;10000000;145;10000000
+Decryption;Threefish;100000000;346;100000000
+Decryption;SM4;100000000;1509;100000000
